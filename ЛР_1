@@ -1,0 +1,27 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        { 
+                int x, y, z, R;
+            x = 13;
+            y = -12;
+            z = 450;
+                R = 2 * x + 2 * y - 4 * x * y + z;
+                Console.WriteLine("R = 2 * x + 2 * y - 4 * x * y + z");
+                Console.WriteLine("Значение переменной x = {0}", x);
+                Console.WriteLine("Значение переменной y = {0}", y);
+                Console.WriteLine("Значение переменной z = {0}", z);
+                Console.WriteLine("Выражение R= 2*{0}+2*({1})-4*{0}*({1})+{2}={3}", x, y, z, R);
+
+                Console.ReadKey();
+            }
+        }
+    }
