@@ -10,6 +10,18 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         { 
+            Console.WriteLine("Лабораторная работа №1, задание №1");
+            Console.WriteLine("Название работы: Разработка консольного приложения");
+            Console.WriteLine("Выполнил: Богатырев С.А.");
+            Console.WriteLine("Группа: ИНС-18-2, шифр специальности: 09.03.02");
+            Console.WriteLine("Дата рождения: 07.10.2000");
+            Console.WriteLine("Место жительства: СК, город Ставрополь");
+            Console.WriteLine("Любимые предметы в школе: математика, физика, литература");
+            Console.WriteLine("Хобби: ходить в СКФУ");
+            Console.WriteLine("");
+            
+            Console.WriteLine("Задание №2");
+                
                 int x, y, z, R;
             x = 13;
             y = -12;
