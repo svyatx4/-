@@ -11,6 +11,8 @@ namespace ConsoleApp2
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Ввод переменных осуществляется в текстовом файле <<in.txt>>");
+            Console.WriteLine("Вывод результатов осуществляется в текстовом файле <<out.txt>>");
             TextWriter save_out = Console.Out;
             TextReader save_in = Console.In;
             var new_out = new StreamWriter(@"out.txt");
@@ -24,19 +26,21 @@ namespace ConsoleApp2
             d = Convert.ToDouble(Console.ReadLine());
             e = Convert.ToDouble(Console.ReadLine());
 
-            if (Math.Pow(c, 2) - (Math.Pow(e, 2) == 0) {
+            if (Math.Pow(c, 2) - Math.Pow(e, 2) == 0) {
                 Console.WriteLine("ERROR");
-            } else {
-                s = Math.Pow(a, 2) / (Math.Pow(c, 2) - (Math.Pow(e, 2));
-                Console.WriteLine(String.Format("{0:0.000"}, s));
             }
+            else
+            {
+                s = Math.Pow(a, 2) / (Math.Pow(c, 2) - Math.Pow(e, 2));
+                Console.WriteLine(String.Format("s = {0:0.000}", s));
+        }
 
             if ((Math.Pow(c, 2) - Math.Pow(d, 3) == 0) || (a - Math.Pow(c, 2) < 0)) {
                   Console.WriteLine("ERROR"); 
             } else {
                 k = Math.Sqrt(a - Math.Pow(c, 2)) / Math.Sqrt(Math.Pow(c, 2) - Math.Pow(d, 3));
-                Console.WriteLine(String.Format("{0:0.000"}, k));
-
+                Console.WriteLine(String.Format("k = {0:0.000}", k));
+    }
             Console.SetOut(save_out);
             new_out.Close();
             Console.SetIn(save_in);
