@@ -1,0 +1,112 @@
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Z = (X^n - Y^n)/n*(n + 2) - (Y^m - X^m)/m*(m + 2)");
+            Console.WriteLine("Enter the numbers X, Y, N and choose the command");
+            string text = "1 - Solve using loop 'for' \n" +
+                "2 - Solve using loop 'while' \n" +
+                "3 - Solve using loop 'do...while' \n";
+            Console.Write(text);
+
+            TextWriter save_out = Console.Out;
+            TextReader save_in = Console.In;
+            var new_out = new StreamWriter(@"out.txt");
+            var new_in = new StreamReader(@"in.txt");
+            Console.SetOut(new_out);
+            Console.SetIn(new_in);
+
+            double Z = 0;
+            int N;
+            double X, Y;
+            int i = 1;
+
+            X = Convert.ToDouble(Console.ReadLine());
+            Y = Convert.ToDouble(Console.ReadLine());
+            N = Convert.ToInt32(Console.ReadLine());           
+            int result = Convert.ToInt32(Console.ReadLine());
+
+            switch (result)
+            {
+                case 1:
+                    {
+                        for (i = 1; i < N; i++)
+                        {
+                            if (i % 2 == 0)
+                            {
+                                Z -= (Math.Pow(Y, i) - Math.Pow(X, i)) / (i * (i + 2));
+                            }
+                            else
+                            {
+                                Z += (Math.Pow(X, i) - Math.Pow(Y, i)) / (i * (i + 2));
+                            }
+                        }
+
+                        break;
+                    }
+                case 2:
+                    {
+                        while (i < N)
+                        {
+                            if (i % 2 == 0)
+                            {
+                                i++;
+                                Z -= (Math.Pow(Y, i) - Math.Pow(X, i)) / (i * (i + 2));
+                            }
+                            else
+                            {
+                                i++;
+                                Z += (Math.Pow(X, i) - Math.Pow(Y, i)) / (i * (i + 2));
+                            }
+                        }
+
+                        break;
+                    }
+                case 3:
+                    {
+                        do
+                        {
+                            i++;
+                            if (i % 2 == 0)
+                            {
+                                Z -= (Math.Pow(Y, i) - Math.Pow(X, i)) / (i * (i + 2));
+                            }
+                            else
+                            {
+                                Z += (Math.Pow(X, i) - Math.Pow(Y, i)) / (i * (i + 2));
+                            }
+                        } while (i < N);
+
+                        break;
+                    }
+                default:
+                    {
+                        Console.WriteLine("Error");
+                        break;
+                    }
+            }
+
+            if (N <= 0)
+            {
+                Console.WriteLine("Try enter the number N again, N > 0");
+            }
+            else
+            {
+                Console.WriteLine(String.Format("The result Z = {0:0.0000000}", Z));
+            }
+
+            Console.SetOut(save_out); new_out.Close();
+            Console.SetIn(save_in); new_in.Close();
+            Console.ReadKey();
+        }
+    }
+}
