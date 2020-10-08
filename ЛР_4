@@ -1,0 +1,78 @@
+using System;
+using System.IO;
+
+namespace ConsoleApp4
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter the number N for array[N] and its elements in file <in.txt>");
+
+            TextWriter save_out = Console.Out;
+            TextReader save_in = Console.In;
+            var new_out = new StreamWriter(@"out.txt");
+            var new_in = new StreamReader(@"in.txt");
+            Console.SetOut(new_out);
+            Console.SetIn(new_in);
+
+            int N = Convert.ToInt32(Console.ReadLine());
+            String str_all = Console.ReadLine();
+            string[] str_el = str_all.Split(' ');
+            double[] mas = new double[N];
+
+            for (int i = 0; i < N; i++)
+            {
+                mas[i] = Convert.ToDouble(str_el[i]);
+            }
+
+            //Нахождение второго по величине элемента
+            double max = mas[0];
+            double max2 = max;
+
+            for(int i = 0; i < N; i++)
+            {
+                if (mas[i] > max) { max2 = max; max = mas[i]; }
+                else
+                {
+                  if (mas[i] > max2) { max2 = mas[i]; }
+                } 
+            }
+            max = max2;
+            Console.WriteLine(max);
+
+            //Вывод преобразованного массива
+            string[] mod = new string[N];
+            for (int i = 0; i < N; i++)
+            {
+                string m = mas[i].ToString();
+                mod[i] = m;
+
+                if (Math.Abs(mas[i]) < 5000)
+                {
+                    mod[i] = "x";
+                }
+                Console.Write(mod[i] + " ");
+            }
+            Console.WriteLine("");
+            //Нахождение минимального отрицательного элемента
+            double min = mas[0];
+            for(int i = 0; i < N; i++)
+            {
+                if ((mas[i] < 0) && (mas[i] < min))
+                {
+                    min = mas[i];
+                }
+            }
+            
+            if (min < 0)
+            { Console.WriteLine(min); }
+            else
+            { Console.WriteLine("No"); }
+
+            Console.SetOut(save_out); new_out.Close();
+            Console.SetIn(save_in); new_in.Close();
+
+        }
+    }
+}
