@@ -25,11 +25,9 @@ namespace ConsoleApp5
             Random r = new Random();
             for (int i = 0; i < N; i++)
             {
-                //String str_all = Console.ReadLine();
-                //string[] str_el = str_all.Split(' ');
+
                 for (int j = 0; j < M; j++)
                 {
-                    //mas[i, j] = Convert.ToInt32(str_el[j]);
                     mas[i, j] = r.Next(-1000, 1000);
                     Console.Write(mas[i, j] + " ");
                 }
