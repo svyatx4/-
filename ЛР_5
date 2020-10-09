@@ -1,0 +1,77 @@
+using System;
+using System.IO;
+
+namespace ConsoleApp5
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter the numbers N and M of array[N, M] in the file <in.txt>");
+
+            TextWriter save_out = Console.Out;
+            TextReader save_in = Console.In;
+            var new_out = new StreamWriter(@"out.txt");
+            var new_in = new StreamReader(@"in.txt");
+            Console.SetOut(new_out);
+            Console.SetIn(new_in);
+
+            int N = Convert.ToInt32(Console.ReadLine());
+            int M = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("***Input matrix***");
+            int[,] mas = new int[N, M];
+
+            Random r = new Random();
+            for (int i = 0; i < N; i++)
+            {
+                //String str_all = Console.ReadLine();
+                //string[] str_el = str_all.Split(' ');
+                for (int j = 0; j < M; j++)
+                {
+                    //mas[i, j] = Convert.ToInt32(str_el[j]);
+                    mas[i, j] = r.Next(-1000, 1000);
+                    Console.Write(mas[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+
+            //Сумма элементов для каждой строки
+            Console.WriteLine("***Sum of the elemets of each row***");
+            int[] m1 = new int[N];
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < M; j++)
+                {
+                    m1[i] += mas[i, j];
+                }
+                Console.WriteLine(m1[i]);
+            }
+            Console.WriteLine();
+
+            //Модифицированная матрица
+            Console.WriteLine("***Modified matrix***");
+            string[,] mod = new string[N, M];
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < M; j++)
+                {
+                    if (mas[i, j] % 5 == 0)
+                    {
+                        mod[i, j] = "5";
+                    } else
+                    {
+                        mod[i, j] = "x";
+                    }
+                    Console.Write(mod[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+
+            Console.SetOut(save_out); new_out.Close();
+            Console.SetIn(save_in); new_in.Close();
+
+        }
+    }
+}
