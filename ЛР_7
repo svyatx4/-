@@ -1,0 +1,96 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+
+namespace ConsoleApp7
+{
+    class Points
+    {
+        private double x, y;
+
+        public Points() { x = 18; y = 9.2; } //конструктор по умолчанию
+        public Points(double px, double py) //конструктор с параметрами
+        {
+            x = px;
+            y = py;
+        }
+
+        public static Points CreateFromFile() //метод для считывания значений из файла
+        {
+            double xx = Convert.ToDouble(Console.ReadLine());
+            double yy = Convert.ToDouble(Console.ReadLine());
+            return new Points(xx, yy);
+        }
+        public double GetS() { return Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2)); }
+        public void Info()
+        {
+            String str =
+                "************************************\n" +
+                "*                 |Y               *\n" +
+                "*                 |    o P(Ox;Oy)  *\n" +
+                "*                 |                *\n" +
+                "*                 |             X  *\n" +
+                "* -------------------------------- *\n" +
+                "*                 | O (0;0)        *\n" +
+                "*                 |                *\n" +
+                "*                 |                *\n" +
+                "*                 |                *\n" +
+                "************************************\n" +
+                "* * * * * *Class <Points>* * * * * *\n";
+            Console.WriteLine(str);
+            Console.WriteLine(string.Format("x = {0:0.00}; y = {1:0.00}", x, y));
+            Console.WriteLine(string.Format("S = {0:0.00}", GetS()));
+        }
+
+        public void Info(ConsoleColor fg, ConsoleColor bgc)
+        {
+            Console.ForegroundColor = fg;
+            Console.BackgroundColor = bgc;
+            Console.Clear();
+            Info();
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+#if !DEBUG
+        TextWriter save_out = Console.Out;
+        TextReader save_in = Console.In;
+        var new_out = new StreamWriter(@"points_output.txt");
+        var new_in = new StreamReader(@"points_input.txt");
+        Console.SetOut(new_out);
+        Console.SetIn(new_in);
+#endif
+            Points p1, p2, p3;
+
+#if DEBUG
+            p2 = new Points(33.4, 22);
+            p2.Info(ConsoleColor.Cyan, ConsoleColor.DarkCyan);
+            Console.WriteLine();
+#endif
+
+#if !DEBUG
+            p1 = Points.CreateFromFile();
+            p1.Info();
+            Console.WriteLine();
+            p2 = new Points(12, 9);
+            p2.Info();
+            Console.WriteLine();
+            p3 = new Points();
+            p3.Info();
+#endif
+
+#if !DEBUG
+        Console.SetOut(save_out); new_out.Close();
+        Console.SetIn(save_in); new_in.Close();
+#else
+            Console.ReadKey();
+#endif
+        }
+    }
+}
