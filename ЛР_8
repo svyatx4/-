@@ -1,0 +1,201 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp11
+{
+    public enum OStype
+    {
+        Server,
+        Computer,
+        Smartphone,
+        Unknown
+    }
+
+    public enum type
+    {
+        General_purpose,
+        Special_purpose,
+        Entertaining,
+        Professional,
+        Unknown
+    }
+
+    class Software
+    {
+        protected string name;
+        protected string memory;
+        protected string version;
+
+        public Software(string N, string V, string M)
+        {
+            name = N;
+            version = V;
+            memory = M;
+        }
+
+        public Software()
+        {
+            name = "Unknown"; memory = "?"; version = "?";
+        }
+
+        public virtual string getName
+        {
+            get
+            {
+                return "Software >" +
+                "\n Name: " + name +
+                "\n Version: " + version +
+                "\n Memory Space: " + memory;
+
+            }
+        }
+    }
+
+    class Application : Software
+    {
+        private type type;
+
+        public Application()
+            :base()
+        {
+            type = type.Unknown;
+        }
+
+        public Application(string N, string V, string M, type T)
+            :base(N, V, M)
+        {
+            type = T;
+        }
+
+        public override string getName
+        {
+            get
+            {
+                return base.getName +
+                    "\n Application: " + type;
+            }
+        }
+    }
+
+    class OpSys : Software
+    {
+        protected int bit;
+        protected OStype type; 
+        
+        public OpSys()
+            :base()
+        {
+            bit = 0;
+            type = OStype.Unknown;
+        }
+
+        public OpSys(string N, string V, string M, int B, OStype T) 
+            :base(N, V, M)
+        {
+            type = T; 
+            bit = B;
+            if (bit < 0)
+            {
+                bit = 0;
+            }
+        }
+
+        public override string getName
+        {
+            get
+            {
+                return base.getName +
+                    "\n Operating System > type: " + type +
+                    "\n Operating System > bitness: " + bit + "-bit";
+                    
+            }
+        }
+    }
+
+    class FreeOpSys : OpSys
+    {
+        private string date;
+
+        public FreeOpSys()
+            :base()
+        {
+            date = "Unknown";
+        }
+
+        public FreeOpSys(string N, string V, string M, int B, OStype T, string D)
+            :base(N, V, M, B, T)
+        {
+            date = D;
+        }
+
+        public override string getName
+        {
+            get
+            {
+                return base.getName +
+                    "\n Free OS release date: " + date;
+            }
+        }
+    }
+
+    class NonFreeOpSys : OpSys
+    {
+        private double price;
+
+        public NonFreeOpSys()
+            :base()
+        {
+            price = 0;
+        }
+
+        public NonFreeOpSys(string N, string V, string M, int B, OStype T, double P) 
+            :base(N, V, M, B, T)
+        {
+            price = P;
+            if (price < 0)
+            {
+                price = 0;
+            }
+        }
+
+        public override string getName
+        {
+            get
+            {
+                return base.getName +
+                    "\n Operating System price: " + price + "$";
+            }
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Software[] mas = new Software[10];
+            mas[0] = new Software();
+            mas[1] = new Software("Windows", "XP", "unknown value");
+
+            mas[2] = new Application();
+            mas[3] = new Application("Heroes of Might and Magic", "II", "1Gb", type.Entertaining);
+
+            mas[4] = new OpSys();
+            mas[5] = new OpSys("Android", "8.0.0", "9Gb", 64, OStype.Smartphone);
+
+            mas[6] = new FreeOpSys();
+            mas[7] = new FreeOpSys("ReactOS", "0.4.13", "500Mb", 64, OStype.Computer, "2020 year");
+
+            mas[8] = new NonFreeOpSys();
+            mas[9] = new NonFreeOpSys("macOS", "Lion 10.8", "8Gb", 64, OStype.Computer, 29.99);
+
+            for(int i = 0; i < mas.Length; i++)
+            {
+                Console.WriteLine(mas[i].getName);
+                Console.WriteLine("-----------------------------------------\n");
+            }
+        }
+    }
+}
