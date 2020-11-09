@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp11
+namespace ConsoleApp8
 {
     public enum OStype
     {
@@ -41,11 +41,11 @@ namespace ConsoleApp11
             name = "Unknown"; memory = "?"; version = "?";
         }
 
-        public virtual string getName
+        public virtual string Info
         {
             get
             {
-                return "Software >" +
+                return
                 "\n Name: " + name +
                 "\n Version: " + version +
                 "\n Memory Space: " + memory;
@@ -70,12 +70,12 @@ namespace ConsoleApp11
             type = T;
         }
 
-        public override string getName
+        public override string Info
         {
             get
             {
-                return base.getName +
-                    "\n Application: " + type;
+                return base.Info +
+                    "\n Type: " + type;
             }
         }
     }
@@ -103,13 +103,13 @@ namespace ConsoleApp11
             }
         }
 
-        public override string getName
+        public override string Info
         {
             get
             {
-                return base.getName +
-                    "\n Operating System > type: " + type +
-                    "\n Operating System > bitness: " + bit + "-bit";
+                return base.Info +
+                    "\n Type for: " + type +
+                    "\n Bitness: " + bit + "-bit";
                     
             }
         }
@@ -131,12 +131,12 @@ namespace ConsoleApp11
             date = D;
         }
 
-        public override string getName
+        public override string Info
         {
             get
             {
-                return base.getName +
-                    "\n Free OS release date: " + date;
+                return base.Info +
+                    "\n Release Date: " + date;
             }
         }
     }
@@ -161,12 +161,12 @@ namespace ConsoleApp11
             }
         }
 
-        public override string getName
+        public override string Info
         {
             get
             {
-                return base.getName +
-                    "\n Operating System price: " + price + "$";
+                return base.Info +
+                    "\n Price: " + price + "$";
             }
         }
     }
@@ -193,7 +193,15 @@ namespace ConsoleApp11
 
             for(int i = 0; i < mas.Length; i++)
             {
-                Console.WriteLine(mas[i].getName);
+                if ((mas[i].GetType().Name == "OpSys") || (mas[i].GetType().Name == "FreeOpSys") || (mas[i].GetType().Name == "NonFreeOpSys"))
+                {
+                    Console.Write("Operating System > ");
+                }
+                else
+                {
+                    Console.Write(mas[i].GetType().Name + " > ");
+                }
+                Console.WriteLine(mas[i].Info);
                 Console.WriteLine("-----------------------------------------\n");
             }
         }
