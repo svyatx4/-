@@ -1,0 +1,324 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp11
+{
+    public interface Shorcut
+    {
+        public void Draw();
+        public void Memory(double M);
+    }
+
+    public enum OStype
+    {
+        Server,
+        Computer,
+        Smartphone,
+        Unknown
+    }
+
+    public enum type
+    {
+        General_purpose,
+        Special_purpose,
+        Entertaining,
+        Professional,
+        Unknown
+    }
+
+    class Software 
+    {
+        protected string name;
+        protected double memory;
+        protected string version;
+
+        public Software(string N, string V, double M)
+        {
+            name = N;
+            version = V;
+            memory = M;
+        }
+
+        public Software()
+        {
+            name = "Unknown"; memory = 0; version = "?";
+        }
+
+        public virtual string Info
+        {
+            get
+            {
+                return
+                "\n Name: " + name +
+                "\n Version: " + version +
+                "\n Memory Space: " + memory + "Gb";
+
+            }
+        }
+    }
+
+    class Application : Software, Shorcut
+    {
+        private type type;
+
+        public Application()
+            :base()
+        {
+            type = type.Unknown;
+        }
+
+        public Application(string N, string V, double M, type T)
+            :base(N, V, M)
+        {
+            type = T;
+        }
+
+          public void Draw()
+    {
+            string str =
+             "_________\n" +
+             "|-------|\n" +
+             "|  App  |\n" +
+             "|_______|<-";
+            Console.WriteLine(str);
+            Console.WriteLine(" " + name + " \n");
+        }
+
+        public void Memory(double M)
+        {
+            double M1;
+            M1 = M - memory;
+            if (M1 <= 0)
+            {
+                if (M <= 0)
+                {
+                    Console.WriteLine(" > Memory Space on device: unknown value");
+                }
+                else { Console.WriteLine(" > There's not enough free memory space"); }
+            }
+            else
+            {
+                Console.WriteLine(" > Free memory space: " + M1 + "Gb");
+            }
+        }
+
+    public override string Info
+        {
+            get
+            {
+                return base.Info +
+                    "\n Type: " + type;
+            }
+        }  
+    }
+
+    class OpSys : Software, Shorcut
+    {
+        protected int bit;
+        protected OStype type; 
+        
+        public OpSys()
+            :base()
+        {
+            bit = 0;
+            type = OStype.Unknown;
+        }
+
+        public OpSys(string N, string V, double M, int B, OStype T) 
+            :base(N, V, M)
+        {
+            type = T; 
+            bit = B;
+            if (bit < 0)
+            {
+                bit = 0;
+            }
+        }
+
+        public override string Info
+        {
+            get
+            {
+                return base.Info +
+                    "\n Type for: " + type +
+                    "\n Bitness: " + bit + "-bit";     
+            }
+        }
+        public void Memory(double M)
+        {
+            double M1;
+            M1 = M - memory;
+            if (M1 <= 0)
+            {
+                if (M <= 0)
+            {
+                Console.WriteLine(" > Memory Space on device: unknown value");
+            } else { Console.WriteLine(" > Error"); }   
+            }
+            else
+            {
+                Console.WriteLine(" > Free memory space: " + M1 + "Gb");
+            }
+        }
+
+        public void Draw()
+        {
+            if (type == OStype.Computer)
+            {
+                string str =
+                    "============\n" +
+                    "||        ||\n" +
+                    "||   PC   ||\n" +
+                    "||________||\n" +
+                    "   ------ Q";
+                Console.WriteLine(str);
+                Console.WriteLine("Operating System > " + name + "\n");
+            } else if (type == OStype.Smartphone)
+            {
+                string str =
+                    "___________\n" +
+                    "||       ||\n" +
+                    "||       ||\n" +
+                    "||  Mob  ||\n" +
+                    "||       ||\n" +
+                    "||_______||\n" +
+                    "||___O___||";
+                Console.WriteLine(str);
+                Console.WriteLine("Operating System > " + name + "\n");
+
+            } else if (type == OStype.Server)
+            {
+                string str =
+                    "___________\n" +
+                    "||-------||\n" +
+                    "||-------||\n" +
+                    "||  <S>  ||\n" +
+                    "||-------||\n" +
+                    "||_______||\n" +
+                    "||_[]_[]_||\n" +
+                    "||_[]_[]_||\n" +
+                    "||_______||";
+                Console.WriteLine(str);
+                Console.WriteLine("Operating System > " + name + "\n");
+            } else if (type == OStype.Unknown)
+            {
+                string str =
+        "_________________________\n" +
+        "||  ------------------- ||\n" +
+        "|| { Operating System } ||\n" +
+        "||______________________||";
+                Console.WriteLine(str);
+                Console.WriteLine("Operating System > " + name + "\n");
+            }
+        }
+    }
+
+    class FreeOpSys : OpSys
+    {
+        private string date;
+
+        public FreeOpSys()
+            :base()
+        {
+            date = "Unknown";
+        }
+
+        public FreeOpSys(string N, string V, double M, int B, OStype T, string D)
+            :base(N, V, M, B, T)
+        {
+            date = D;
+        }
+
+        public override string Info
+        {
+            get
+            {
+                return base.Info +
+                    "\n Release Date: " + date;
+            }
+        }
+    }
+
+    class NonFreeOpSys : OpSys
+    {
+        private double price;
+
+        public NonFreeOpSys()
+            :base()
+        {
+            price = 0;
+        }
+
+        public NonFreeOpSys(string N, string V, double M, int B, OStype T, double P) 
+            :base(N, V, M, B, T)
+        {
+            price = P;
+            if (price < 0)
+            {
+                price = 0;
+            }
+        }
+
+        public override string Info
+        {
+            get
+            {
+                return base.Info +
+                    "\n Price: " + price + "$";
+            }
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.BackgroundColor = ConsoleColor.DarkCyan;
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Clear();
+
+            Console.Title = "Task № 9. Interfaces";
+
+            Application[] A = new Application[2];
+            A[0] = new Application();
+            A[1] = new Application("Heroes of Might and Magic", "II", 1, type.Entertaining);
+            double[] mas = new double[A.Length];
+            mas[0] = 0; mas[1] = 100;
+           
+            for(int i = 0; i < A.Length; i++)
+            {
+                A[i].Draw();
+                Console.WriteLine(A[i].Info);
+                A[i].Memory(mas[i]);
+                Console.WriteLine("-----------------------------------------\n");
+            }
+
+            OpSys[] O = new OpSys[4];
+            O[0] = new OpSys();
+            O[1] = new OpSys("Android", "8.0.0", 9, 64, OStype.Smartphone);
+            O[2] = new OpSys("ReactOS", "0.4.13", 0.5, 64, OStype.Computer);
+            O[3] = new OpSys("Windows Server", "2012 R2", 60, 32, OStype.Server);
+
+            double[] mos = new double[O.Length];
+            mos[0] = 0;
+            mos[1] = 32;
+            mos[2] = 200;
+            mos[3] = 900;
+
+            for (int i = 0; i < O.Length; i++)
+            {
+                O[i].Draw();
+                Console.WriteLine(O[i].Info);
+                O[i].Memory(mos[i]);
+                Console.WriteLine("-----------------------------------------\n");
+            }
+
+            Console.ReadKey();
+        }
+    }
+}
