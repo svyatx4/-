@@ -1,0 +1,88 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Linq.Expressions;
+using System.IO;
+
+namespace ConsoleApp11
+{
+    enum Language
+    {
+        Russian,
+        English,
+        Japanese
+    }
+    enum Company
+    {
+        Company_1,
+        Company_2,
+        Company_3,
+        Company_4
+    }
+    class Person
+    {
+        String ID { get; set; }
+        String Fname { get; set; }
+        String Lname { get; set; }
+        String Email { get; set; }
+        public Language L { get; set; }
+        public float Salary { get; set; }
+        public Company C { get; set; }
+
+        public static Person Create(String str) {
+            Person p = new Person();
+            string[] e = str.Split(',');
+            p.ID = e[0].Trim();
+            p.Fname = e[1].Trim();
+            p.Lname = e[2].Trim();
+            p.Email = e[3].Trim();
+            String tmp = e[4].Trim();
+            if(tmp == "Russian")
+            {
+                p.L = Language.Russian;
+            } else if (tmp == "English")
+            {
+                p.L = Language.English;
+            } else
+            {
+                p.L = Language.Japanese;
+            }
+            p.Salary = Convert.ToSingle(e[5].TrimStart('$').Replace('.', ','));
+            String com = e[6].Trim();
+            if(com == "Company_1")
+            {
+                p.C = Company.Company_1;
+            } else if (com == "Company_2")
+            {
+                p.C = Company.Company_2;
+            } else if (com == "Company_3")
+            {
+                p.C = Company.Company_3;
+            } else
+            {
+                p.C = Company.Company_4;
+            }
+
+                return p;
+        }
+
+        public override string ToString()
+        {
+            String s = string.Format(
+                "***************************************************************\n" +
+                "ID: {0}, First Name: {1}, Last Name: {2}, Language: {3}\n" +
+                "E-mail: {4}, Salary: {5}$, Company: {6}",
+                ID, Fname, Lname, L, Email, Salary, CompanyToStr(C));
+            return s;
+        }
+
+        private static String CompanyToStr(Company c)
+        {
+            if (c == Company.Company_1) return "#1";
+            else if (c == Company.Company_2) return "#2";
+            else if (c == Company.Company_3) return "#3";
+            else return "#4";
+        }
+    }
+}
