@@ -1,0 +1,162 @@
+using System;
+using System.IO;
+using System.Numerics;
+
+namespace ConsoleApp10
+{
+    class Matrix
+    {
+        private int[,] mas;
+        private int m, n;
+
+        public Matrix() {  }
+
+        public void Generate(int M, int N)
+        {
+            n = N; m = M; 
+            Random r = new Random();
+            mas = new int[M, N];
+            for(int i = 0; i < M; i++)
+            {
+                for(int j = 0; j < N; j++)
+                {
+                    mas[i, j] = r.Next(-100, 100);
+                }
+            }
+
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (((j + 1) % 2 == 0) && (i == j))
+                    {
+                        Sum += mas[i, j];
+                    }
+                }
+            }
+        }
+
+        public void Save(string name)
+        {
+            if (mas.Length > 0)
+            {
+                if (File.Exists(name)) { File.Delete(name); }
+                    
+            FileInfo f = new FileInfo(name);
+            TextWriter tw = f.CreateText();
+
+            tw.WriteLine("Rows > " + m.ToString());
+            tw.WriteLine("Cols > " + n.ToString());
+            tw.WriteLine("Matrix > ");
+                for (int i = 0; i < m; i++)
+                {
+                    for (int j = 0; j < n; j++)
+                    {
+                        tw.Write(string.Format("{0,4}", mas[i, j].ToString()) + " ");
+                    }
+                    tw.WriteLine();
+                }
+
+                tw.WriteLine("Sum of diagonal elements in even matrix columns > " + Sum.ToString());
+                tw.Close();
+            }
+        }
+
+        public Boolean Load(string name)
+        {
+            if(File.Exists(name))
+            {
+                try
+                {
+                    TextReader tr = File.OpenText(name);
+                    m = Convert.ToInt32(tr.ReadLine());
+                    n = Convert.ToInt32(tr.ReadLine());
+
+                    mas = new int[m, n];
+                    string line;
+                    string[] substring;
+
+                    for(int i = 0; i < m; i++)
+                    {
+                        for(int j = 0; j < n; j++)
+                        {
+                            line = tr.ReadLine();
+                            substring = line.Split(new char[] {' '}, 3);
+                            mas[i, j] = Convert.ToInt32(substring[2]);
+                        }
+                    }
+
+                    tr.Close();
+                    return true;
+                } catch
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public void Print()
+        {
+            if(mas.Length > 0)
+            {
+                for(int i = 0; i < m; i++)
+                {
+                    for(int j = 0; j < n; j++)
+                    {
+                        Console.Write(mas[i, j].ToString() + " ");
+                    }
+                    Console.WriteLine();
+                }
+            }
+        }
+
+        public void Result(string name, int K)
+        {
+            int r = K + Sum;
+            Console.WriteLine("Sum of diagonal elements in even matrices columns > " + r);
+
+            if (File.Exists(name)) { File.Delete(name); }
+
+            FileInfo f = new FileInfo(name);
+            TextWriter tw = f.CreateText();
+
+            tw.WriteLine("Sum of diagonal elements in even matrices columns  > " + r.ToString());
+            tw.Close();
+        }
+
+        public int Sum { get; private set; } = 0;
+    }
+
+    
+    
+    class Program
+    { 
+        static void Main(string[] args)
+        {
+            Console.BackgroundColor = ConsoleColor.DarkRed;
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Clear();
+            Console.Title = "Task №10. File basics";
+
+            Matrix m = new Matrix();
+            m.Generate(6, 8);
+            m.Save("matrix.txt");
+            if(m.Load("matrix.txt"))
+            {
+                m.Print();
+            }
+
+            Matrix m1 = new Matrix();
+            m1.Generate(7, 7);
+            m1.Save("matrix1.txt");
+            if (m1.Load("matrix1.txt"))
+             {
+               m1.Print();
+             }
+
+            m1.Result("result.txt", m.Sum);
+            Console.ReadKey();
+        }
+    }
+}
