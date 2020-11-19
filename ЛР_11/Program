@@ -1,0 +1,93 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
+
+namespace ConsoleApp11
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Clear();
+            Console.Title = "Task #11. File data processing";
+
+            StreamReader file = new StreamReader("lr11_22.csv");
+#if !DEBUG 
+            TextWriter save_out = Console.Out;
+            var new_out = new StreamWriter(@"output.txt");
+            Console.SetOut(new_out);
+#endif
+            List<Person> all = new List<Person>();
+            try
+            {
+                String line = file.ReadLine();
+                while ((line = file.ReadLine()) != null)
+                {
+                    all.Add(Person.Create(line));
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            int k = all.Count;
+            Console.WriteLine("All employees > {0}", k);
+            // foreach (var p in all) Console.WriteLine(p);
+           
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine("\n*******Task #1*******");
+            float max1 = (from p in all where p.C == Company.Workus_Co select p.Salary).Max();
+            float max2 = (from p in all where p.C == Company.Zuko_Ltd select p.Salary).Max();
+            float max3 = (from p in all where p.C == Company.Craft_Ltd select p.Salary).Max();
+            float max4 = (from p in all where p.C == Company.NodaTLT_Co select p.Salary).Max();
+            Console.WriteLine("The highest salary in the company 'Workus Co' > " + max1);
+            Console.WriteLine("The highest salary in the company 'Zuko Ltd' > " + max2);
+            Console.WriteLine("The highest salary in the company 'Craft Ltd' > " + max3);
+            Console.WriteLine("The highest salary in the company 'NodaTLT Co' > " + max4);
+
+            Console.WriteLine("\n*******Task #2*******");
+            int count1 = all.FindAll(p => p.C == Company.Workus_Co).ToList().Count;
+            int count2 = all.FindAll(p => p.C == Company.Zuko_Ltd).ToList().Count;
+            int count3 = all.FindAll(p => p.C == Company.Craft_Ltd).ToList().Count;
+            int count4 = k - count1 - count2 - count3;
+            Console.WriteLine("Number of employees in the company 'Workus Co' > " + count1);
+            Console.WriteLine("Number of employees in the company 'Zuko Ltd' > " + count2);
+            Console.WriteLine("Number of employees in the company 'Craft Ltd' > " + count3);
+            Console.WriteLine("Number of employees in the company 'NodaTLT Co' > " + count4);
+
+            Console.WriteLine("\n*******Task #3*******");
+            int itl = all.FindAll(p => p.L == Language.Italian).ToList().Count;
+            int rus = all.FindAll(p => p.L == Language.Russian).ToList().Count;
+            int fre = all.FindAll(p => p.L == Language.French).ToList().Count;
+            int eng = k - itl - rus - fre;
+            Console.WriteLine("Number of English employees > " + eng);
+            Console.WriteLine("Number of Russian employees > " + rus);
+            Console.WriteLine("Number of Italian employees > " + itl);
+            Console.WriteLine("Number of French employees > " + fre);
+
+            Console.WriteLine("\n*******Task #4*******");
+            int counts = 0;
+            float aves = (from p in all select p.Salary).Average();
+            foreach (var p in all)
+            {
+                if (p.Salary > aves) { counts++; }
+            }
+            Console.WriteLine("Average salary > " + aves);
+            Console.WriteLine("Number of employees whose salary is higher than average one > " + counts);
+
+#if !DEBUG
+            Console.SetOut(save_out);
+            new_out.Close();
+
+#else
+            Console.ReadKey();
+#endif
+
+        }
+    }
+}
+
